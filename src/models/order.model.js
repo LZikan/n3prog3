@@ -22,7 +22,7 @@ module.exports = (sequelize) => {
     {
         timestamps: false
     })
-    //Assoicação com as tabelas Customer e OrderItem
+    //Associação com as tabelas Customer e OrderItem
     Order.Associate = (models) => {
         Order.belongsTo(models.Customer, {
             as: 'customer', 
