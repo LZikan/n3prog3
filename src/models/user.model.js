@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize')
 
 module.exports = (sequelize) => {
-    const User = sequelize.define('users', {
+    const User = sequelize.define('Users', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -25,5 +25,14 @@ module.exports = (sequelize) => {
     {
         timestamps: false
     })
+    
+//Associação 1 para muitos User -> Permission
+    User.associate = (models) => {
+        User.hasMany(models.Permission, {
+            as: 'permissions',
+            foreignKey: 'userId'
+        })
+        
+    }
     return User
 }

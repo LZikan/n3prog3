@@ -10,7 +10,7 @@ exports.findAll = async (request, response) => {
             message: 'Usuários listados com sucesso!'
         })
     } catch (e) {
-        response.send(400).json({
+        response.status(400).json({
             status: 400,
             message: e
         })
@@ -19,14 +19,15 @@ exports.findAll = async (request, response) => {
 
 exports.findById = async (request, response) => {
     try {
-        const user = await userService.findById()
+        const id = parseInt(request.params.id)
+        const user = await userService.findById(id)
         return response.status(200).json({
             status: 200, 
             data: user,
             message: 'Usuário encontrado com sucesso!'
         })
     } catch (e) {
-        response.send(400).json({
+        response.sendStatus(400).json({
             status: 400, 
             message: e
         })
@@ -54,9 +55,9 @@ exports.create = async (request, response) => {
 exports.update = async (request, response) => {
     try {
         const id = parseInt(request.params.id)
-        const { username, email, password } = request.body
+        const { username, email, password, permissions } = request.body
 
-        await userService.update(id, username, email, password)
+        await userService.update(id, username, email, password, permissions)
         response.status(200).send({
             message: 'Usuário alterado com sucesso!',
             body: {
