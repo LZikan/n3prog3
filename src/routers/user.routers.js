@@ -1,10 +1,10 @@
 const router = require('express-promise-router')()
 const userController = require ('../controllers/user.controller')
 
-router.get('/user', userController.findAll)
-router.get('/user/:id', userController.findById)
-router.post('/user', userController.create)
-router.put('/user/:id', userController.update)
-router.delete('/user/:id', userController.delete)
+router.get('/', userController.findAll)
+router.get('/:id', userController.findById)
+router.post('/', userController.create)
+router.put('/:id', userController.update)
+router.delete('/:id', userController.delete)
 
 module.exports = router 

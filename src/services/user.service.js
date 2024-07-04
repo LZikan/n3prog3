@@ -3,9 +3,14 @@ const Users = db.users
 
 exports.FindAll = async () => {
     try {
-        const users = await Users.FindAll({
-            attributes:['id','username','email']
-        })
+        const users = await Users.FindAll(
+            {
+                include: 'permissions' 
+            },
+            {
+                attributes:['id','username','email']
+            }
+        )
         return users
     } catch (e) {
         throw Error(`Ocorreu um erro ao selecionar os usuários. ERROR: ' ${e.message}`)
@@ -14,20 +19,28 @@ exports.FindAll = async () => {
 
 exports.findById = async(id) => {
     try {
-        const user = await Users.findByPk(id,{
-            attributes:['id','username','email']
-        })
+        const user = await Users.findByPk(
+            id,
+            { 
+                include: 'permissions' 
+            },
+            {
+                attributes:['id','username','email']
+            }
+    )
+        return user
     } catch (e) {
         throw Error(`Ocorreu um erro ao selecionar o usuário. ERROR: ${e.message}`)
     }
 }
 
-exports.create = async(username, email, password) => {
+exports.create = async(username, email, password, permissions) => {
     try {
         const user = await Users.create({
             username: username,
             email: email,
-            password: password
+            password: password,
+            permissions: permissions
         })
         return user
     } catch (e) {
@@ -35,13 +48,14 @@ exports.create = async(username, email, password) => {
     }
 }
 
-exports.update = async(id, username, email, password) => {
+exports.update = async(id, username, email, password, permissions) => {
     try {
         await Users.update(
             {
                 username: username,
                 email: email,
-                password: password
+                password: password,
+                permissions: permissions
             },
             {
                 where:{id: id}
